@@ -19,16 +19,8 @@ const useCamera = ({
   const [isCameraResumed, setIsCameraResumed] = useState<boolean>(false);
   const [isCameraSupported, setIsCameraSupported] = useState<boolean>(false);
 
-  console.log("red", streamVideoRef);
-
   const startCamera = () => {
     setStatus("starting");
-    // cameraStream!.start();
-    // onStart && onStart();
-    // setIsCameraStarted(true);
-    // if (streamVideoRef?.current) {
-    //   streamVideoRef.current.srcObject = cameraStream;
-    // }
   };
 
   const stopCamera = () => {
