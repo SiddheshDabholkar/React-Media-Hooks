@@ -49,6 +49,9 @@ const useMicroPhone = ({
     if (micStream) {
       setStatus("restarting");
       micStream.stop();
+      setMicStream(null);
+      setBlob(null);
+      setBlobUrl(null);
       onRestart && onRestart();
       setIsMicRestarted(true);
       setStatus("idle");

@@ -54,6 +54,8 @@ const useCamera = ({
     if (cameraStream && isCameraStarted) {
       setStatus("restarting");
       setCameraStream(null);
+      setBlob(null);
+      setBlobUrl(null);
       onRestart && onRestart();
       setIsCameraStarted(false);
       setStatus("idle");
@@ -92,6 +94,7 @@ const useCamera = ({
     if (status === "starting") {
       getMedia();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [status]);
 
   useEffect(() => {
