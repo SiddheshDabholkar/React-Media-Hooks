@@ -4,7 +4,6 @@
 
 > react hooks to easily use microphone,camera and screen recorder.
 
-
 ## Installation
 
 >> via npm
@@ -18,9 +17,11 @@ npm i react-media-hooks
 ```bash
 yarn add react-media-hooks
 ```
+
 ## Usage
 
 >> useMicroPhone
+
 ```tsx
 // useMicroPhone
 import {useMicroPhone} from 'react-media-hooks';
@@ -153,6 +154,7 @@ const Camera=()=>{
 }
 
 ```
+
 >> useScreenRecorder
 
 ```tsx
@@ -218,8 +220,8 @@ export default function Screen(){
 
 ```
 
-
 ## Demo
+>
 > - [useMicroPhone]()
 
 > - [useScreenRecorder]()
