@@ -8,6 +8,7 @@ function Camera() {
     isCameraStarted,
     isCameraPaused,
     isCameraResumed,
+    isCameraStopped,
 
     blob,
     blobUrl,
@@ -20,7 +21,27 @@ function Camera() {
     resumeCamera,
     startCamera,
     stopCamera,
-  } = useCamera({ streamVideoRef: ref });
+  } = useCamera({
+    streamVideoRef: ref,
+    onError: () => {
+      console.log("onError executed");
+    },
+    onPause: () => {
+      console.log("onPause executed");
+    },
+    onRestart: () => {
+      console.log("onRestart executed");
+    },
+    onResume: () => {
+      console.log("onResume executed");
+    },
+    onStart: () => {
+      console.log("onStart executed");
+    },
+    onStop: () => {
+      console.log("onStop executed");
+    },
+  });
 
   // console.log("isCameraSupported", isCameraSupported);
   // console.log("isCameraStarted", isCameraStarted);

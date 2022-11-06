@@ -39,6 +39,7 @@ function Mic() {
     onStop: () => {
       console.log("onStop executed");
     },
+    
   });
 
   // console.log("isMicPaused", isMicPaused);
