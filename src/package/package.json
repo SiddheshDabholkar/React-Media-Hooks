@@ -1,0 +1,28 @@
+{
+  "name": "react-media-hooks",
+  "version": "1.0.0",
+  "description": "hooks for camera,microphone and screen recording",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SiddheshDabholkar/React-Media-Hooks.git"
+  },
+  "keywords": [
+    "hooks",
+    "microphone",
+    "camera",
+    "screen-recording",
+    "screen",
+    "recording",
+    "react"
+  ],
+  "author": "Siddhesh dabholkar",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SiddheshDabholkar/React-Media-Hooks/issues"
+  },
+  "homepage": "https://github.com/SiddheshDabholkar/React-Media-Hooks#readme"
+}

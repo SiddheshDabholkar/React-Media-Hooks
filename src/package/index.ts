@@ -1,3 +1,5 @@
 import useCamera from "./useCamera";
+import useMicroPhone from "./useMicroPhone";
+import useScreenRecorder from "./useScreenRec";
 
-export { useCamera };
+export { useCamera, useScreenRecorder, useMicroPhone };
