@@ -16,7 +16,8 @@ export type useMicroPhoneReturn = {
   isMicStopped: boolean;
 
   status: status;
-  micStream: MediaRecorder | null;
+  micRecorder: MediaRecorder | null;
+  micStream: MediaStream | null;
   blob: Blob | null;
   blobUrl: string | null;
 

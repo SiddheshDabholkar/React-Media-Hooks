@@ -33,22 +33,13 @@ const useScreenRecording = ({
     useState(false);
 
   useEffect(() => {
-    if (screenRecorder) {
-      screenRecorder.ondataavailable = (e) => {
-        const url = URL.createObjectURL(e.data);
-        setBlob(e.data);
-        setBlobUrl(url);
-      };
-    }
-  }, [screenRecorder]);
-
-  useEffect(() => {
     if (displayStream) {
       displayStream.getVideoTracks()[0].onended = () => {
         stopRecording();
       };
     }
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [displayStream]);
 
   const startRecording = () => {
     if (!screenRecorder) {
@@ -60,6 +51,11 @@ const useScreenRecording = ({
     if (screenRecorder) {
       setStatus("stopping");
       screenRecorder.stop();
+      screenRecorder.ondataavailable = (e) => {
+        const url = URL.createObjectURL(e.data);
+        setBlob(e.data);
+        setBlobUrl(url);
+      };
       audioStream?.getAudioTracks()?.map((m) => m.stop());
       displayStream?.getAudioTracks()?.map((a) => a.stop());
       displayStream?.getVideoTracks()?.map((a) => a.stop());

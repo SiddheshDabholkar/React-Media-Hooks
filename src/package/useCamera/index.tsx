@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { status, useCameraProps, useCameraReturn } from "./usecamer.type";
+import { status, useCameraProps, useCameraReturn } from "./type";
 
 const useCamera = ({
   onStart,
@@ -10,7 +10,10 @@ const useCamera = ({
   streamVideoRef,
 }: useCameraProps): useCameraReturn => {
   const [status, setStatus] = useState<status>("idle");
-  const [cameraStream, setCameraStream] = useState<MediaRecorder | null>(null);
+  const [cameraStream, setCameraStream] = useState<MediaStream | null>(null);
+  const [cameraRecorder, setCameraRecorder] = useState<MediaRecorder | null>(
+    null
+  );
   const [blob, setBlob] = useState<Blob | null>(null);
   const [blobUrl, setBlobUrl] = useState<string | null>(null);
 
@@ -18,42 +21,49 @@ const useCamera = ({
   const [isCameraPaused, setIsCameraPaused] = useState<boolean>(false);
   const [isCameraResumed, setIsCameraResumed] = useState<boolean>(false);
   const [isCameraSupported, setIsCameraSupported] = useState<boolean>(false);
+  const [isCameraStopped, setIsCameraStopped] = useState<boolean>(false);
 
   const startCamera = () => {
     setStatus("starting");
   };
 
   const stopCamera = () => {
-    if (cameraStream && isCameraStarted) {
+    if (cameraRecorder && isCameraStarted) {
       setStatus("stopping");
-      cameraStream.stop();
+      cameraRecorder.stop();
+      cameraRecorder.ondataavailable = (e) => {
+        const objectUrl = URL.createObjectURL(e.data);
+        setBlobUrl(objectUrl);
+        setBlob(e.data);
+      };
       onStop && onStop();
       setIsCameraStarted(false);
+      setIsCameraStopped(true);
     }
   };
 
   const pauseCamera = () => {
-    if (cameraStream && isCameraStarted) {
+    if (cameraRecorder && isCameraStarted) {
       setStatus("pausing");
-      cameraStream.pause();
+      cameraRecorder.pause();
       onPause && onPause();
       setIsCameraPaused(true);
     }
   };
 
   const resumeCamera = () => {
-    if (cameraStream && isCameraStarted) {
+    if (cameraRecorder && isCameraStarted) {
       setStatus("resuming");
-      cameraStream.resume();
+      cameraRecorder.resume();
       onResume && onResume();
       setIsCameraResumed(true);
     }
   };
 
   const restartCamera = () => {
-    if (cameraStream && isCameraStarted) {
+    if (cameraRecorder && isCameraStarted) {
       setStatus("restarting");
-      setCameraStream(null);
+      setCameraRecorder(null);
       setBlob(null);
       setBlobUrl(null);
       onRestart && onRestart();
@@ -63,16 +73,6 @@ const useCamera = ({
   };
 
   useEffect(() => {
-    if (cameraStream) {
-      cameraStream.ondataavailable = (e) => {
-        const objectUrl = URL.createObjectURL(e.data);
-        setBlobUrl(objectUrl);
-        setBlob(e.data);
-      };
-    }
-  }, [cameraStream]);
-
-  useEffect(() => {
     const getMedia = async () => {
       try {
         const cameraMedia = await navigator.mediaDevices.getUserMedia({
@@ -80,8 +80,9 @@ const useCamera = ({
           video: true,
         });
         const cameraMediaRecorder = new MediaRecorder(cameraMedia);
-        setCameraStream(cameraMediaRecorder);
-        cameraMediaRecorder!.start();
+        setCameraStream(cameraMedia);
+        setCameraRecorder(cameraMediaRecorder);
+        cameraMediaRecorder.start();
         onStart && onStart();
         setIsCameraStarted(true);
         if (streamVideoRef?.current) {
@@ -110,11 +111,13 @@ const useCamera = ({
     isCameraSupported,
     isCameraPaused,
     isCameraResumed,
+    isCameraStopped,
 
     status,
-    cameraStream,
+    cameraRecorder,
     blob,
     blobUrl,
+    cameraStream,
 
     startCamera,
     stopCamera,

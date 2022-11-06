@@ -39,6 +39,7 @@ function Screen() {
 
   console.log("status", status);
   console.log("blob", blob);
+  console.log("blobUrl", blobUrl);
   console.log("isPausedRecording", isPausedRecording);
   console.log("isRestartedRecording", isRestartedRecording);
   console.log("isResumedRecording", isResumedRecording);

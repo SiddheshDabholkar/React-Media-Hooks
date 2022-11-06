@@ -12,6 +12,7 @@ function Camera() {
     blob,
     blobUrl,
     cameraStream,
+    cameraRecorder,
     status,
 
     pauseCamera,
@@ -29,6 +30,7 @@ function Camera() {
   // console.log("blob", blob);
   // console.log("blobUrl", blobUrl);
   // console.log("cameraStream", cameraStream);
+  // console.log("cameraRecorder", cameraRecorder);
   return (
     <div>
       <h1>Camera</h1>
@@ -40,12 +42,10 @@ function Camera() {
         <button onClick={startCamera}>startCamera</button>
         <button onClick={stopCamera}>stopCamera</button>
       </div>
-      {blobUrl && (
-        <div>
-          <h3>After downloading</h3>
-          <video height={300} width={300} autoPlay src={blobUrl} />
-        </div>
-      )}
+      <div>
+        <h3>After recording</h3>
+        {blobUrl && <video height={300} width={300} autoPlay src={blobUrl} />}
+      </div>
     </div>
   );
 }

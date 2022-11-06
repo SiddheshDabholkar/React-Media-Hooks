@@ -8,21 +8,23 @@ export type useCameraProps = {
 };
 
 export type useCameraReturn = {
-  isCameraSupported?: boolean;
-  isCameraStarted?: boolean;
-  isCameraPaused?: boolean;
-  isCameraResumed?: boolean;
+  isCameraSupported: boolean;
+  isCameraStarted: boolean;
+  isCameraPaused: boolean;
+  isCameraResumed: boolean;
+  isCameraStopped: boolean;
 
-  status?: status;
-  cameraStream: MediaRecorder | null;
+  status: status;
+  cameraRecorder: MediaRecorder | null;
+  cameraStream: MediaStream | null;
   blob: Blob | null;
   blobUrl: string | null;
 
-  startCamera?: () => void;
-  stopCamera?: () => void;
-  pauseCamera?: () => void;
-  resumeCamera?: () => void;
-  restartCamera?: () => void;
+  startCamera: () => void;
+  stopCamera: () => void;
+  pauseCamera: () => void;
+  resumeCamera: () => void;
+  restartCamera: () => void;
 };
 
 export type status =

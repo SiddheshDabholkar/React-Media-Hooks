@@ -10,7 +10,8 @@ const useMicroPhone = ({
   onError,
 }: useMicroPhoneProps): useMicroPhoneReturn => {
   const [status, setStatus] = useState<status>("idle");
-  const [micStream, setMicStream] = useState<MediaRecorder | null>(null);
+  const [micRecorder, setMicRecorder] = useState<MediaRecorder | null>(null);
+  const [micStream, setMicStream] = useState<MediaStream | null>(null);
   const [blob, setBlob] = useState<Blob | null>(null);
   const [blobUrl, setBlobUrl] = useState<string | null>(null);
 
@@ -22,34 +23,34 @@ const useMicroPhone = ({
   const [isMicStopped, setIsMicStopped] = useState(false);
 
   const startMic = () => {
-    if (!micStream) {
+    if (!micRecorder) {
       setStatus("starting");
     }
   };
 
   const resumeMic = () => {
-    if (micStream) {
+    if (micRecorder) {
       setStatus("resuming");
-      micStream.resume();
+      micRecorder.resume();
       onResume && onResume();
       setIsMicResumed(true);
     }
   };
 
   const pauseMic = () => {
-    if (micStream) {
+    if (micRecorder) {
       setStatus("pausing");
-      micStream.pause();
+      micRecorder.pause();
       onPause && onPause();
       setIsMicPaused(true);
     }
   };
 
   const restartMic = () => {
-    if (micStream) {
+    if (micRecorder) {
       setStatus("restarting");
-      micStream.stop();
-      setMicStream(null);
+      micRecorder.stop();
+      setMicRecorder(null);
       setBlob(null);
       setBlobUrl(null);
       onRestart && onRestart();
@@ -59,9 +60,9 @@ const useMicroPhone = ({
   };
 
   const stopMic = () => {
-    if (micStream) {
+    if (micRecorder) {
       setStatus("stopping");
-      micStream.stop();
+      micRecorder.stop();
       onStop && onStop();
       setIsMicStopped(true);
       setStatus("idle");
@@ -74,8 +75,9 @@ const useMicroPhone = ({
         const micMedia = await navigator.mediaDevices.getUserMedia({
           audio: true,
         });
+        setMicStream(micMedia);
         const micMediaStream = new MediaRecorder(micMedia);
-        setMicStream(micMediaStream);
+        setMicRecorder(micMediaStream);
         micMediaStream.start();
         setIsMicStarted(true);
         onStart && onStart();
@@ -90,18 +92,18 @@ const useMicroPhone = ({
   }, [status]);
 
   useEffect(() => {
-    if (micStream) {
-      micStream.ondataavailable = (e) => {
+    if (micRecorder && isMicStopped) {
+      micRecorder.ondataavailable = (e) => {
         const url = URL.createObjectURL(e.data);
         setBlob(e.data);
         setBlobUrl(url);
       };
-      if (onError) {
-        micStream.onerror = onError;
-      }
+    }
+    if (micRecorder && onError) {
+      micRecorder.onerror = onError;
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [micStream]);
+  }, [micRecorder, isMicStopped]);
 
   useEffect(() => {
     if (navigator.mediaDevices) {
@@ -113,6 +115,7 @@ const useMicroPhone = ({
 
   return {
     status,
+    micRecorder,
     micStream,
     blob,
     blobUrl,
