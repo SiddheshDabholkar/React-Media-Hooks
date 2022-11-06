@@ -63,6 +63,12 @@ const useMicroPhone = ({
     if (micRecorder) {
       setStatus("stopping");
       micRecorder.stop();
+      micRecorder.ondataavailable = (e) => {
+        const url = URL.createObjectURL(e.data);
+        setBlob(e.data);
+        setBlobUrl(url);
+      };
+      micStream?.getAudioTracks().map((a) => a.stop());
       onStop && onStop();
       setIsMicStopped(true);
       setStatus("idle");
@@ -92,18 +98,11 @@ const useMicroPhone = ({
   }, [status]);
 
   useEffect(() => {
-    if (micRecorder && isMicStopped) {
-      micRecorder.ondataavailable = (e) => {
-        const url = URL.createObjectURL(e.data);
-        setBlob(e.data);
-        setBlobUrl(url);
-      };
-    }
     if (micRecorder && onError) {
       micRecorder.onerror = onError;
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [micRecorder, isMicStopped]);
+  }, [micRecorder]);
 
   useEffect(() => {
     if (navigator.mediaDevices) {

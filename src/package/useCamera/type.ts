@@ -4,6 +4,7 @@ export type useCameraProps = {
   onPause?: () => void;
   onResume?: () => void;
   onRestart?: () => void;
+  onError?: () => void;
   streamVideoRef?: React.MutableRefObject<HTMLVideoElement | null>;
 };
 

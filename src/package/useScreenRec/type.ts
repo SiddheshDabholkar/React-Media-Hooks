@@ -4,6 +4,7 @@ export type useScreenRecordingProps = {
   onStop?: () => void;
   onPause?: () => void;
   onRestart?: () => void;
+  onError?: () => void;
   enableSystemSound: boolean;
   streamVideoRef?: React.MutableRefObject<HTMLVideoElement | null>;
 };

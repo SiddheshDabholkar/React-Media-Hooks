@@ -12,6 +12,7 @@ const useScreenRecording = ({
   onStop,
   onPause,
   onRestart,
+  onError,
   streamVideoRef,
 }: useScreenRecordingProps): useScreenRecordingReturn => {
   const [isStartedRecording, setIsStartedRecording] = useState(false);
@@ -57,8 +58,7 @@ const useScreenRecording = ({
         setBlobUrl(url);
       };
       audioStream?.getAudioTracks()?.map((m) => m.stop());
-      displayStream?.getAudioTracks()?.map((a) => a.stop());
-      displayStream?.getVideoTracks()?.map((a) => a.stop());
+      displayStream?.getTracks()?.map((a) => a.stop());
       setIsStoppedRecording(true);
       onStop && onStop();
     }
@@ -93,6 +93,13 @@ const useScreenRecording = ({
       setStatus("idle");
     }
   };
+
+  useEffect(() => {
+    if (screenRecorder && onError) {
+      screenRecorder.onerror = onError;
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [screenRecorder]);
 
   useEffect(() => {
     const getScreenRecorder = async () => {

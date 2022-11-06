@@ -7,6 +7,7 @@ const useCamera = ({
   onPause,
   onResume,
   onRestart,
+  onError,
   streamVideoRef,
 }: useCameraProps): useCameraReturn => {
   const [status, setStatus] = useState<status>("idle");
@@ -36,6 +37,7 @@ const useCamera = ({
         setBlobUrl(objectUrl);
         setBlob(e.data);
       };
+      cameraStream?.getTracks()?.map((a) => a.stop());
       onStop && onStop();
       setIsCameraStarted(false);
       setIsCameraStopped(true);
@@ -71,6 +73,13 @@ const useCamera = ({
       setStatus("idle");
     }
   };
+
+  useEffect(() => {
+    if (cameraRecorder && onError) {
+      cameraRecorder.onerror = onError;
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cameraRecorder]);
 
   useEffect(() => {
     const getMedia = async () => {
