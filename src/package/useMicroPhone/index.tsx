@@ -6,7 +6,6 @@ const useMicroPhone = ({
   onPause,
   onStop,
   onResume,
-  onRestart,
   onError,
 }: useMicroPhoneProps): useMicroPhoneReturn => {
   const [status, setStatus] = useState<status>("idle");
@@ -19,17 +18,16 @@ const useMicroPhone = ({
   const [isMicStarted, setIsMicStarted] = useState(false);
   const [isMicPaused, setIsMicPaused] = useState(false);
   const [isMicResumed, setIsMicResumed] = useState(false);
-  const [isMicRestarted, setIsMicRestarted] = useState(false);
   const [isMicStopped, setIsMicStopped] = useState(false);
 
   const startMic = () => {
-    if (!micRecorder) {
+    if (status !== "starting") {
       setStatus("starting");
     }
   };
 
   const resumeMic = () => {
-    if (micRecorder) {
+    if (status === "pausing" && micRecorder) {
       setStatus("resuming");
       micRecorder.resume();
       onResume && onResume();
@@ -38,7 +36,7 @@ const useMicroPhone = ({
   };
 
   const pauseMic = () => {
-    if (micRecorder) {
+    if ((status === "starting" || status === "resuming") && micRecorder) {
       setStatus("pausing");
       micRecorder.pause();
       onPause && onPause();
@@ -46,21 +44,11 @@ const useMicroPhone = ({
     }
   };
 
-  const restartMic = () => {
-    if (micRecorder) {
-      setStatus("restarting");
-      micRecorder.stop();
-      setMicRecorder(null);
-      setBlob(null);
-      setBlobUrl(null);
-      onRestart && onRestart();
-      setIsMicRestarted(true);
-      setStatus("idle");
-    }
-  };
-
   const stopMic = () => {
-    if (micRecorder) {
+    if (
+      micRecorder &&
+      (status === "resuming" || status === "starting" || status === "pausing")
+    ) {
       setStatus("stopping");
       micRecorder.stop();
       micRecorder.ondataavailable = (e) => {
@@ -123,11 +111,9 @@ const useMicroPhone = ({
     isMicStarted,
     isMicPaused,
     isMicResumed,
-    isMicRestarted,
     isMicStopped,
 
     pauseMic,
-    restartMic,
     resumeMic,
     startMic,
     stopMic,

@@ -1,4 +1,6 @@
-import useMicroPhone from "../package/useMicroPhone";
+import Layout from "../../layout";
+import useMicroPhone from "../../package/useMicroPhone";
+import "./mic.css";
 
 function Mic() {
   const {
@@ -9,14 +11,12 @@ function Mic() {
     status,
 
     isMicPaused,
-    isMicRestarted,
     isMicResumed,
     isMicStarted,
     isMicStopped,
     isMicSupported,
 
     pauseMic,
-    restartMic,
     resumeMic,
     startMic,
     stopMic,
@@ -27,9 +27,6 @@ function Mic() {
     onPause: () => {
       console.log("onPause executed");
     },
-    onRestart: () => {
-      console.log("onRestart executed");
-    },
     onResume: () => {
       console.log("onResume executed");
     },
@@ -39,11 +36,16 @@ function Mic() {
     onStop: () => {
       console.log("onStop executed");
     },
-    
   });
 
+  const ButtonsData = [
+    { name: "pauseMic", onClick: pauseMic },
+    { name: "resumeMic", onClick: resumeMic },
+    { name: "startMic", onClick: startMic },
+    { name: "stopMic", onClick: stopMic },
+  ];
+
   // console.log("isMicPaused", isMicPaused);
-  // console.log("isMicRestarted", isMicRestarted);
   // console.log("isMicResumed", isMicResumed);
   // console.log("isMicStarted", isMicStarted);
   // console.log("isMicStopped", isMicStopped);
@@ -54,19 +56,15 @@ function Mic() {
   // console.log("blob", blob);
 
   return (
-    <main>
-      <h1>Use Microphone</h1>
-      <div>
-        {blobUrl && <audio autoPlay src={blobUrl} controls />}
-        <div>
-          <button onClick={pauseMic}>pauseMic</button>
-          <button onClick={restartMic}>restartMic</button>
-          <button onClick={resumeMic}>resumeMic</button>
-          <button onClick={startMic}>startMic</button>
-          <button onClick={stopMic}>stopMic</button>
+    <Layout
+      name="useMicrophone"
+      buttons={ButtonsData}
+      rest={
+        <div className="Mic">
+          {blobUrl && <audio autoPlay src={blobUrl} controls />}
         </div>
-      </div>
-    </main>
+      }
+    />
   );
 }
 

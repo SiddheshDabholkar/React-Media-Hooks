@@ -3,7 +3,6 @@ export type useCameraProps = {
   onStop?: () => void;
   onPause?: () => void;
   onResume?: () => void;
-  onRestart?: () => void;
   onError?: () => void;
   streamVideoRef?: React.MutableRefObject<HTMLVideoElement | null>;
 };
@@ -25,13 +24,6 @@ export type useCameraReturn = {
   stopCamera: () => void;
   pauseCamera: () => void;
   resumeCamera: () => void;
-  restartCamera: () => void;
 };
 
-export type status =
-  | "starting"
-  | "stopping"
-  | "pausing"
-  | "idle"
-  | "resuming"
-  | "restarting";
+export type status = "starting" | "stopping" | "pausing" | "idle" | "resuming";

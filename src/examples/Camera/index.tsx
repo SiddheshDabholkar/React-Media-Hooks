@@ -1,5 +1,7 @@
 import { useRef } from "react";
-import { useCamera } from "../package";
+import Layout from "../../layout";
+import { useCamera } from "../../package";
+import "./camera.css";
 
 function Camera() {
   const ref = useRef<HTMLVideoElement | null>(null);
@@ -17,7 +19,6 @@ function Camera() {
     status,
 
     pauseCamera,
-    restartCamera,
     resumeCamera,
     startCamera,
     stopCamera,
@@ -28,9 +29,6 @@ function Camera() {
     },
     onPause: () => {
       console.log("onPause executed");
-    },
-    onRestart: () => {
-      console.log("onRestart executed");
     },
     onResume: () => {
       console.log("onResume executed");
@@ -43,6 +41,13 @@ function Camera() {
     },
   });
 
+  const ButtonsData = [
+    { name: "pauseCamera", onClick: pauseCamera },
+    { name: "resumeCamera", onClick: resumeCamera },
+    { name: "startCamera", onClick: startCamera },
+    { name: "stopCamera", onClick: stopCamera },
+  ];
+
   // console.log("isCameraSupported", isCameraSupported);
   // console.log("isCameraStarted", isCameraStarted);
   // console.log("isCameraPaused", isCameraPaused);
@@ -52,22 +57,30 @@ function Camera() {
   // console.log("blobUrl", blobUrl);
   // console.log("cameraStream", cameraStream);
   // console.log("cameraRecorder", cameraRecorder);
+
   return (
-    <div>
-      <h1>Camera</h1>
-      <video ref={ref} height={200} width={300} autoPlay />
-      <div>
-        <button onClick={pauseCamera}>pauseCamera</button>
-        <button onClick={restartCamera}>restartCamera</button>
-        <button onClick={resumeCamera}>resumeCamera</button>
-        <button onClick={startCamera}>startCamera</button>
-        <button onClick={stopCamera}>stopCamera</button>
-      </div>
-      <div>
-        <h3>After recording</h3>
-        {blobUrl && <video height={300} width={300} autoPlay src={blobUrl} />}
-      </div>
-    </div>
+    <Layout
+      name="useCamera"
+      buttons={ButtonsData}
+      rest={
+        <div className="Camera">
+          <video
+            ref={ref}
+            height={400}
+            width={400}
+            autoPlay
+            controls={false}
+            className="CameraStreaming"
+          />
+          {blobUrl && (
+            <div className="CameraRecording">
+              <h3>After recording</h3>
+              <video height={300} width={300} autoPlay src={blobUrl} controls />
+            </div>
+          )}
+        </div>
+      }
+    />
   );
 }
 

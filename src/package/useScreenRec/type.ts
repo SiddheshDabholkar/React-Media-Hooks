@@ -3,7 +3,6 @@ export type useScreenRecordingProps = {
   onResume?: () => void;
   onStop?: () => void;
   onPause?: () => void;
-  onRestart?: () => void;
   onError?: () => void;
   enableSystemSound: boolean;
   streamVideoRef?: React.MutableRefObject<HTMLVideoElement | null>;
@@ -14,7 +13,6 @@ export type useScreenRecordingReturn = {
   isPausedRecording: boolean;
   isResumedRecording: boolean;
   isStoppedRecording: boolean;
-  isRestartedRecording: boolean;
 
   isScreenRecordingSupported: boolean;
   status: status;
@@ -26,13 +24,6 @@ export type useScreenRecordingReturn = {
   startRecording: () => void;
   pauseRecording: () => void;
   resumeRecording: () => void;
-  restartRecording: () => void;
 };
 
-export type status =
-  | "starting"
-  | "stopping"
-  | "pausing"
-  | "idle"
-  | "resuming"
-  | "restarting";
+export type status = "starting" | "stopping" | "pausing" | "idle" | "resuming";

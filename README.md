@@ -35,14 +35,12 @@ const Mic=()=>{
     status,
 
     isMicPaused,
-    isMicRestarted,
     isMicResumed,
     isMicStarted,
     isMicStopped,
     isMicSupported,
 
     pauseMic,
-    restartMic,
     resumeMic,
     startMic,
     stopMic,
@@ -52,9 +50,6 @@ const Mic=()=>{
     },
     onPause: () => {
       console.log("onPause executed");
-    },
-    onRestart: () => {
-      console.log("onRestart executed");
     },
     onResume: () => {
       console.log("onResume executed");
@@ -73,7 +68,6 @@ const Mic=()=>{
         {blobUrl && <audio autoPlay src={blobUrl} controls />}
         <div>
           <button onClick={pauseMic}>pauseMic</button>
-          <button onClick={restartMic}>restartMic</button>
           <button onClick={resumeMic}>resumeMic</button>
           <button onClick={startMic}>startMic</button>
           <button onClick={stopMic}>stopMic</button>
@@ -109,7 +103,6 @@ const Camera=()=>{
     status,
 
     pauseCamera,
-    restartCamera,
     resumeCamera,
     startCamera,
     stopCamera,
@@ -120,9 +113,6 @@ const Camera=()=>{
     },
     onPause: () => {
       console.log("onPause executed");
-    },
-    onRestart: () => {
-      console.log("onRestart executed");
     },
     onResume: () => {
       console.log("onResume executed");
@@ -140,7 +130,6 @@ const Camera=()=>{
       <video ref={ref} height={200} width={300} autoPlay />
       <div>
         <button onClick={pauseCamera}>pauseCamera</button>
-        <button onClick={restartCamera}>restartCamera</button>
         <button onClick={resumeCamera}>resumeCamera</button>
         <button onClick={startCamera}>startCamera</button>
         <button onClick={stopCamera}>stopCamera</button>
@@ -168,14 +157,12 @@ export default function Screen(){
     blob,
     blobUrl,
     isPausedRecording,
-    isRestartedRecording,
     isResumedRecording,
     isScreenRecordingSupported,
     isStartedRecording,
     isStoppedRecording,
     status,
     pauseRecording,
-    restartRecording,
     resumeRecording,
     startRecording,
   } = useScreenRecording({
@@ -183,9 +170,6 @@ export default function Screen(){
     streamVideoRef,
     onPause: () => {
       console.log("onPause executed");
-    },
-    onRestart: () => {
-      console.log("onRestart executed");
     },
     onResume: () => {
       console.log("onResume executed");
@@ -205,7 +189,6 @@ export default function Screen(){
       </div>
       <div>
         <button onClick={pauseRecording}>pauseRecording</button>
-        <button onClick={restartRecording}>restartRecording</button>
         <button onClick={resumeRecording}>resumeRecording</button>
         <button onClick={startRecording}>startRecording</button>
       </div>

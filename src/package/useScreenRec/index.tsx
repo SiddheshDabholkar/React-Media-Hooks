@@ -11,7 +11,6 @@ const useScreenRecording = ({
   onResume,
   onStop,
   onPause,
-  onRestart,
   onError,
   streamVideoRef,
 }: useScreenRecordingProps): useScreenRecordingReturn => {
@@ -19,7 +18,6 @@ const useScreenRecording = ({
   const [isPausedRecording, setIsPausedRecording] = useState(false);
   const [isResumedRecording, setIsResumedRecording] = useState(false);
   const [isStoppedRecording, setIsStoppedRecording] = useState(false);
-  const [isRestartedRecording, setIsRestartedRecording] = useState(false);
 
   const [displayStream, setDisplayStream] = useState<MediaStream | null>(null);
   const [audioStream, setAudioStream] = useState<MediaStream | null>(null);
@@ -43,13 +41,18 @@ const useScreenRecording = ({
   }, [displayStream]);
 
   const startRecording = () => {
-    if (!screenRecorder) {
+    if (status !== "starting") {
       setStatus("starting");
     }
   };
 
   const stopRecording = () => {
-    if (screenRecorder) {
+    if (
+      (status === "starting" ||
+        status === "pausing" ||
+        status === "resuming") &&
+      screenRecorder
+    ) {
       setStatus("stopping");
       screenRecorder.stop();
       screenRecorder.ondataavailable = (e) => {
@@ -65,7 +68,7 @@ const useScreenRecording = ({
   };
 
   const pauseRecording = () => {
-    if (screenRecorder) {
+    if ((status === "resuming" || status === "starting") && screenRecorder) {
       setStatus("pausing");
       screenRecorder.pause();
       setIsPausedRecording(true);
@@ -74,23 +77,11 @@ const useScreenRecording = ({
   };
 
   const resumeRecording = () => {
-    if (screenRecorder) {
+    if (status === "pausing" && screenRecorder) {
       setStatus("resuming");
       screenRecorder.resume();
       setIsResumedRecording(true);
       onResume && onResume();
-    }
-  };
-
-  const restartRecording = () => {
-    if (screenRecorder) {
-      setStatus("restarting");
-      screenRecorder.stop();
-      setBlob(null);
-      setBlobUrl(null);
-      setIsRestartedRecording(true);
-      onRestart && onRestart();
-      setStatus("idle");
     }
   };
 
@@ -148,7 +139,6 @@ const useScreenRecording = ({
     isPausedRecording,
     isResumedRecording,
     isStoppedRecording,
-    isRestartedRecording,
 
     isScreenRecordingSupported,
     status,
@@ -160,7 +150,6 @@ const useScreenRecording = ({
     startRecording,
     pauseRecording,
     resumeRecording,
-    restartRecording,
   };
 };
 

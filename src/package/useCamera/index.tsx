@@ -6,7 +6,6 @@ const useCamera = ({
   onStop,
   onPause,
   onResume,
-  onRestart,
   onError,
   streamVideoRef,
 }: useCameraProps): useCameraReturn => {
@@ -25,7 +24,7 @@ const useCamera = ({
   const [isCameraStopped, setIsCameraStopped] = useState<boolean>(false);
 
   const startCamera = () => {
-    setStatus("starting");
+    if (!isCameraStarted) setStatus("starting");
   };
 
   const stopCamera = () => {
@@ -59,18 +58,6 @@ const useCamera = ({
       cameraRecorder.resume();
       onResume && onResume();
       setIsCameraResumed(true);
-    }
-  };
-
-  const restartCamera = () => {
-    if (cameraRecorder && isCameraStarted) {
-      setStatus("restarting");
-      setCameraRecorder(null);
-      setBlob(null);
-      setBlobUrl(null);
-      onRestart && onRestart();
-      setIsCameraStarted(false);
-      setStatus("idle");
     }
   };
 
@@ -132,7 +119,6 @@ const useCamera = ({
     stopCamera,
     pauseCamera,
     resumeCamera,
-    restartCamera,
   };
 };
 
