@@ -33,8 +33,8 @@ const useCamera = ({
   const stopCamera = () => {
     if (cameraRecorder && isCameraStarted) {
       setStatus("stopping");
-      cameraRecorder.stop();
       setDuration(Date.now() - startTime);
+      cameraRecorder.stop();
       cameraRecorder.ondataavailable = (e) => {
         const objectUrl = URL.createObjectURL(e.data);
         setBlobUrl(objectUrl);

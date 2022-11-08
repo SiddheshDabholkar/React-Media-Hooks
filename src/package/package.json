@@ -1,6 +1,6 @@
 {
   "name": "react-media-hooks",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "hooks for camera,microphone and screen recording",
   "main": "index.ts",
   "scripts": {
