@@ -205,11 +205,7 @@ export default function Screen(){
 
 ## Demo
 >
-> - [useMicroPhone]()
-
-> - [useScreenRecorder]()
-
-> - [useCameraPhone]()
+> [Demo](https://react-media-hooks.vercel.app/)
 
 ## License
 
