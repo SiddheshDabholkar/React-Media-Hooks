@@ -20,6 +20,9 @@ const useMicroPhone = ({
   const [isMicResumed, setIsMicResumed] = useState(false);
   const [isMicStopped, setIsMicStopped] = useState(false);
 
+  const [startTime, setStartTime] = useState<number>(0);
+  const [duration, setDuration] = useState<number>(0);
+
   const startMic = () => {
     if (status !== "starting") {
       setStatus("starting");
@@ -51,6 +54,7 @@ const useMicroPhone = ({
     ) {
       setStatus("stopping");
       micRecorder.stop();
+      setDuration(Date.now() - startTime);
       micRecorder.ondataavailable = (e) => {
         const url = URL.createObjectURL(e.data);
         setBlob(e.data);
@@ -73,6 +77,7 @@ const useMicroPhone = ({
         const micMediaStream = new MediaRecorder(micMedia);
         setMicRecorder(micMediaStream);
         micMediaStream.start();
+        setStartTime(Date.now());
         setIsMicStarted(true);
         onStart && onStart();
       } catch (error) {
@@ -112,6 +117,7 @@ const useMicroPhone = ({
     isMicPaused,
     isMicResumed,
     isMicStopped,
+    duration,
 
     pauseMic,
     resumeMic,

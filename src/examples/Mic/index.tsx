@@ -1,5 +1,6 @@
 import Layout from "../../layout";
 import useMicroPhone from "../../package/useMicroPhone";
+import { getSize, getTime } from "../../utils";
 import "./mic.css";
 
 function Mic() {
@@ -15,6 +16,7 @@ function Mic() {
     isMicStarted,
     isMicStopped,
     isMicSupported,
+    duration,
 
     pauseMic,
     resumeMic,
@@ -61,7 +63,15 @@ function Mic() {
       buttons={ButtonsData}
       rest={
         <div className="Mic">
-          {blobUrl && <audio autoPlay src={blobUrl} controls />}
+          {blobUrl && (
+            <>
+              <audio autoPlay src={blobUrl} controls />
+              <div className="row space-between w-full">
+                {blob?.size && <span>size: {getSize(blob?.size)} </span>}
+                <span>duration: {getTime(duration)}</span>
+              </div>
+            </>
+          )}
         </div>
       }
     />

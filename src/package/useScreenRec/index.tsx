@@ -57,7 +57,7 @@ const useScreenRecording = ({
     ) {
       setStatus("stopping");
       screenRecorder.stop();
-      setDuration((Date.now() - startTime) / 1000);
+      setDuration(Date.now() - startTime);
       screenRecorder.ondataavailable = (e) => {
         const url = URL.createObjectURL(e.data);
         setBlob(e.data);

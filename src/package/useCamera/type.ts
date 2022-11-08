@@ -19,6 +19,7 @@ export type useCameraReturn = {
   cameraStream: MediaStream | null;
   blob: Blob | null;
   blobUrl: string | null;
+  duration: number;
 
   startCamera: () => void;
   stopCamera: () => void;

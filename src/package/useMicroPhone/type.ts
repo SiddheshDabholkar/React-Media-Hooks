@@ -18,6 +18,7 @@ export type useMicroPhoneReturn = {
   micStream: MediaStream | null;
   blob: Blob | null;
   blobUrl: string | null;
+  duration: number;
 
   startMic: () => void;
   resumeMic: () => void;

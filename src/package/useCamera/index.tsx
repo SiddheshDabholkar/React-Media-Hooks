@@ -23,6 +23,9 @@ const useCamera = ({
   const [isCameraSupported, setIsCameraSupported] = useState<boolean>(false);
   const [isCameraStopped, setIsCameraStopped] = useState<boolean>(false);
 
+  const [startTime, setStartTime] = useState<number>(0);
+  const [duration, setDuration] = useState<number>(0);
+
   const startCamera = () => {
     if (!isCameraStarted) setStatus("starting");
   };
@@ -31,6 +34,7 @@ const useCamera = ({
     if (cameraRecorder && isCameraStarted) {
       setStatus("stopping");
       cameraRecorder.stop();
+      setDuration(Date.now() - startTime);
       cameraRecorder.ondataavailable = (e) => {
         const objectUrl = URL.createObjectURL(e.data);
         setBlobUrl(objectUrl);
@@ -79,6 +83,7 @@ const useCamera = ({
         setCameraStream(cameraMedia);
         setCameraRecorder(cameraMediaRecorder);
         cameraMediaRecorder.start();
+        setStartTime(Date.now());
         onStart && onStart();
         setIsCameraStarted(true);
         if (streamVideoRef?.current) {
@@ -114,6 +119,7 @@ const useCamera = ({
     blob,
     blobUrl,
     cameraStream,
+    duration,
 
     startCamera,
     stopCamera,

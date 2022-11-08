@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import Layout from "../../layout";
 import { useCamera } from "../../package";
+import { getSize, getTime } from "../../utils";
 import "./camera.css";
 
 function Camera() {
@@ -17,6 +18,7 @@ function Camera() {
     cameraStream,
     cameraRecorder,
     status,
+    duration,
 
     pauseCamera,
     resumeCamera,
@@ -76,6 +78,10 @@ function Camera() {
             <div className="CameraRecording">
               <h3>After recording</h3>
               <video height={300} width={300} autoPlay src={blobUrl} controls />
+              <div className="row space-between w-full">
+                {blob?.size && <span>size: {getSize(blob?.size)} </span>}
+                <span>duration: {getTime(duration)}</span>
+              </div>
             </div>
           )}
         </div>
