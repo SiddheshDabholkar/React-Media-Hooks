@@ -30,6 +30,8 @@ const useScreenRecording = ({
   const [status, setStatus] = useState<status>("idle");
   const [isScreenRecordingSupported, setScreenRecordingSupported] =
     useState(false);
+  const [startTime, setStartTime] = useState<number>(0);
+  const [duration, setDuration] = useState<number>(0);
 
   useEffect(() => {
     if (displayStream) {
@@ -55,6 +57,7 @@ const useScreenRecording = ({
     ) {
       setStatus("stopping");
       screenRecorder.stop();
+      setDuration((Date.now() - startTime) / 1000);
       screenRecorder.ondataavailable = (e) => {
         const url = URL.createObjectURL(e.data);
         setBlob(e.data);
@@ -110,6 +113,7 @@ const useScreenRecording = ({
         const stream = new MediaStream(tracks);
         const ScreenMediaRecorder = new MediaRecorder(stream);
         ScreenMediaRecorder.start();
+        setStartTime(Date.now());
 
         setDisplayStream(screenMedia);
         setAudioStream(audioMedia);
@@ -146,6 +150,7 @@ const useScreenRecording = ({
     blobUrl,
     displayStream,
     audioStream,
+    duration,
 
     startRecording,
     pauseRecording,

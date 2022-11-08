@@ -20,6 +20,7 @@ export type useScreenRecordingReturn = {
   blobUrl: string | null;
   displayStream: MediaStream | null;
   audioStream: MediaStream | null;
+  duration: number;
 
   startRecording: () => void;
   pauseRecording: () => void;

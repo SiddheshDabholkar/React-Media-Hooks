@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import Layout from "../../layout";
 import useScreenRecording from "../../package/useScreenRec";
+import { getSize, getTime } from "../../utils";
 import "./screen.css";
 
 function Screen() {
@@ -14,6 +15,7 @@ function Screen() {
     isStartedRecording,
     isStoppedRecording,
     status,
+    duration,
     pauseRecording,
     resumeRecording,
     startRecording,
@@ -75,6 +77,10 @@ function Screen() {
                 controls
                 className="streamingVideo"
               />
+              <div className="row space-between">
+                {blob?.size && <span>size: {getSize(blob?.size)} </span>}
+                <span>duration: {getTime(duration)}</span>
+              </div>
             </div>
           )}
         </div>
